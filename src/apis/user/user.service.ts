@@ -1,8 +1,9 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/user.dto';
 import { Repository } from 'typeorm';
 import { UserEntity } from 'src/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { resError } from 'src/utils/response.util';
 
 @Injectable()
 export class UserService {
@@ -18,10 +19,7 @@ export class UserService {
       user_name: body.name,
     };
     return this.userRepo.insert(user).catch((error) => {
-      throw new HttpException(
-        { statusCode: 400, message: 'error', date: Date(), error },
-        400,
-      );
+      resError(error);
     });
   }
 
