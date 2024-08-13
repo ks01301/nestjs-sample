@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { Logger } from '@nestjs/common';
@@ -11,6 +12,14 @@ async function bootstrap() {
   const port = configService.get<number>('port');
 
   app.enableCors();
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
 
   Logger.log(`Application running on port ${port}`);
 
