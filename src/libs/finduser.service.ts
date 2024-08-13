@@ -14,7 +14,6 @@ export class FindUserService {
   ) {}
 
   async findUser(validateUser: findUser): Promise<UserEntity | null> {
-    console.log(1);
     const findUser = await this.userRepo.findOne({
       where: { id: validateUser.id },
     });
@@ -28,8 +27,6 @@ export class FindUserService {
     const findUser = await this.userRepo.findOne({
       where: { id: validateUser.id },
     });
-
-    console.log(findUser);
 
     if (!findUser.id) return resError('not exist id');
 

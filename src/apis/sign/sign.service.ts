@@ -23,7 +23,6 @@ export class SignService {
   }
 
   async test() {
-    console.log('a');
     return resOk('test');
   }
 }

@@ -9,4 +9,6 @@ export class UserEntity extends BaseEntity {
   hash_password: string;
   @Column()
   user_name: string;
+  @Column({})
+  email: string;
 }

@@ -20,13 +20,14 @@ export class UserService {
       id: body.id,
       hash_password: hash,
       user_name: body.name,
+      email: body.email,
     };
 
     return this.userRepo
       .insert(user)
       .then(() => resOk(`create ${user.user_name} user`))
       .catch((error) => {
-        resError(error);
+        resError('create user error', error);
       });
   }
 }
