@@ -10,9 +10,4 @@ export class UserController {
   create(@Body() body: CreateUserDto) {
     return this.userService.create(body);
   }
-
-  // @Get()
-  // findAll() {
-  //   return this.userService.findAll();
-  // }
 }
