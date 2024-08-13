@@ -1,5 +1,17 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 
+const resOk = (
+  message: string = 'success request',
+  result?: any,
+  status: number = HttpStatus.OK,
+) => {
+  return {
+    statusCode: status < 1000 ? status : HttpStatus.OK,
+    message,
+    result,
+  };
+};
+
 const resError = (
   error: any,
   message?: string,
@@ -8,4 +20,4 @@ const resError = (
   throw new HttpException({ message, error }, status);
 };
 
-export { resError };
+export { resOk, resError };
