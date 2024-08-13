@@ -23,6 +23,12 @@ export class SignService {
   }
 
   async test() {
+    const locale = new Date().toLocaleString('en-US', {
+      timeZone: 'Asia/Seoul',
+    });
+
+    console.log(locale);
+    console.log(new Date(locale));
     return resOk('test');
   }
 }

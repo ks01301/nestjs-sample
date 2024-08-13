@@ -17,6 +17,8 @@ export class SignController {
   @UseGuards(AuthGuard)
   async test(@Req() req: Request) {
     const user: any = req.user;
-    return user;
+
+    return this.signService.test();
+    // return user;
   }
 }
