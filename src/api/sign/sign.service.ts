@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { resOk } from 'src/utils/response.util';
+import { resOk } from 'src/util/response.util';
 import { JwtService } from '@nestjs/jwt';
 import { Payload } from './interface/payload.interface';
-import { FindUserService } from 'src/libs/finduser.service';
+import { FindUserService } from 'src/lib/finduser.service';
 import { LoginDto } from './dto/login.dto';
 
 @Injectable()

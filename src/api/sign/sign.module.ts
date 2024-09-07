@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/entities/user.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { FindUserService } from 'src/libs/finduser.service';
+import { FindUserService } from 'src/lib/finduser.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt/passport.jwt.strategy';
 

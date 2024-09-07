@@ -4,7 +4,7 @@ import { UserEntity } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { findUser } from './interface/finduser.interface';
-import { resError } from 'src/utils/response.util';
+import { resError } from 'src/util/response.util';
 
 @Injectable()
 export class FindUserService {
