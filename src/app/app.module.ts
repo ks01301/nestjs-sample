@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ConfigModule } from '@nestjs/config';
-import dbConfig from 'src/config/db.config';
-import appConfig from 'src/config/app.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './../config/typeorm.config';
-import { UserModule } from 'src/apis/user/user.module';
-import { SignModule } from 'src/apis/sign/sign.module';
-import jwtConfig from 'src/config/jwt.config';
+import Configs from 'src/config/configs';
+import { UserModule } from 'src/api/user/user.module';
+import { SignModule } from 'src/api/sign/sign.module';
 
 @Module({
   imports: [
@@ -15,7 +13,7 @@ import jwtConfig from 'src/config/jwt.config';
       envFilePath: `.env.${process.env.NODE_ENV}`,
       cache: true,
       isGlobal: true,
-      load: [appConfig, dbConfig, jwtConfig],
+      load: Configs,
     }),
     TypeOrmModule.forRootAsync(typeOrmConfig),
     UserModule,
