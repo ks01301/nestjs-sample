@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
 import { SignService } from './sign.service';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
@@ -9,17 +9,22 @@ export class SignController {
   constructor(private readonly signService: SignService) {}
 
   @Post()
-  async login(@Body() body: LoginDto) {
-    return this.signService.login(body);
+  login(@Body() loginDto: LoginDto) {
+    return this.signService.login(loginDto);
+  }
+
+  @Post('refresh')
+  refresh(
+    @Body()
+    { refresh_token }: { refresh_token: string },
+  ) {
+    return this.signService.refresh(refresh_token);
   }
 
   @Get()
   @UseGuards(AuthGuard)
-  async test(@Req() req: Request) {
-    // async test() {
-    console.log(3232321);
-    const user: any = req.user;
-    return user;
-    // return this.signService.test();
+  token(@Req() req: Request) {
+    console.log(req.user);
+    return 'ok';
   }
 }

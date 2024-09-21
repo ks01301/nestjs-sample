@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/user.dto';
-import { Repository } from 'typeorm';
-import { UserEntity } from 'src/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { resError, resOk } from 'src/util/response.util';
 import * as bcrypt from 'bcrypt';
+import { UserEntity } from 'src/entity/user.entity';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/user.dto';
+import { resOk } from 'src/util/response.util';
+import { resError } from 'src/util/error.util';
 
 @Injectable()
 export class UserService {
@@ -13,20 +14,20 @@ export class UserService {
     private userRepo: Repository<UserEntity>,
   ) {}
 
-  async create(body: CreateUserDto) {
-    const hash = await bcrypt.hash(body.password, 10);
+  async create({ user_id, password, name }: CreateUserDto) {
+    const hash = await bcrypt.hash(password, 10);
 
     const user = {
-      id: body.id,
+      user_id,
       hash_password: hash,
-      user_name: body.name,
+      name: name,
     };
 
     return this.userRepo
       .insert(user)
-      .then(() => resOk(`create ${user.user_name} user`))
-      .catch((error) => {
-        resError(error);
+      .then(() => resOk(200, 'create account'))
+      .catch((err) => {
+        resError(400, 1000, err);
       });
   }
 }

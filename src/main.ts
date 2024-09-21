@@ -1,9 +1,8 @@
-import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { HttpExceptionFilter } from './filters/exception.filter';
+import { HttpExceptionFilter } from './filter/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,10 +20,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  //* HttpException 전역 핸들링
+
   app.useGlobalFilters(new HttpExceptionFilter());
 
-  Logger.log(`Application running on port ${port}`);
+  Logger.log(`Server is running on port ${port}`);
 
   await app.listen(port);
 }

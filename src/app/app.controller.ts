@@ -3,7 +3,7 @@ import { Controller, Get } from '@nestjs/common';
 @Controller()
 export class AppController {
   @Get()
-  getHello() {
-    return 'Server is running!';
+  getHello(): string {
+    return 'server is running';
   }
 }

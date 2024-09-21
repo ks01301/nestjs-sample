@@ -1,10 +1,10 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
-import { FindUserService } from 'src/lib/finduser.service';
 import { Payload } from '../interface/payload.interface';
 import { ConfigService } from '@nestjs/config';
-import { resError } from 'src/util/response.util';
+import { FindUserService } from 'src/lib/user.lib';
+import { resError } from 'src/util/error.util';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -14,15 +14,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      // ignoreExpiration: true,
       secretOrKey: configService.get<string>('jwt.jwt_secret'),
     });
   }
 
-  async validate(payload: Payload, done: VerifiedCallback): Promise<any> {
-    const user = await this.findUserService.findUser(payload);
+  async validate(
+    { user_id, password }: Payload,
+    done: VerifiedCallback,
+  ): Promise<any> {
+    if (!user_id || !password) resError(401, 1001);
 
-    if (!user) resError('user does not exist.', null, HttpStatus.UNAUTHORIZED);
+    const user = await this.findUserService.validateUser(user_id, password);
 
     return done(null, user);
   }

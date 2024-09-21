@@ -3,7 +3,6 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
-  HttpStatus,
   Logger,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
@@ -18,20 +17,19 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const getResponse = exception.getResponse();
     const url = request.url;
 
-    const message = getResponse['message']
-      ? getResponse['message']
-      : `undefined error message. check URL: ${request.method} ${url}`;
+    const message = getResponse['message'];
     const error = getResponse['error'];
+    const errorCode = getResponse['errorCode'];
 
     const logger = new Logger();
     logger.error(`[${request.method}] ${message}`, url);
-    logger.debug(error, url);
+    if (error) logger.debug(error, url);
 
-    response.status(status < 1000 ? status : HttpStatus.BAD_REQUEST).json({
-      statusCode: status,
-      message,
-      timeStamp: new Date().toISOString(),
+    response.status(status).json({
+      errorCode,
       url,
+      timeStamp: new Date().toISOString(),
+      message,
       error,
     });
   }
